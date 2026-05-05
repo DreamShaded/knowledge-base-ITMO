@@ -1,0 +1,14 @@
+id: q-004
+category: lookup
+query: "Что такое граф знаний (knowledge graph)?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Граф знаний — это сеть сущностей и отношений между ними"
+  - "Используется для структурированного представления знаний"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

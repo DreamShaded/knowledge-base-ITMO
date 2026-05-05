@@ -1,0 +1,14 @@
+id: q-074
+category: comparison
+query: "Что лучше для личного PKM: Obsidian или Roam Research?"
+
+gold_sources: []
+
+expected_facts:
+  - "Obsidian работает с локальными Markdown файлами без подписки"
+  - "Roam — облачный с bidirectional links и outliner интерфейсом"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

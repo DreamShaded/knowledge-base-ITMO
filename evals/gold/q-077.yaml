@@ -1,0 +1,14 @@
+id: q-077
+category: comparison
+query: "Что эффективнее для graph walk: SPARQL или прямая навигация по RDF?"
+
+gold_sources: []
+
+expected_facts:
+  - "SPARQL позволяет декларативно задавать паттерны обхода"
+  - "Прямая навигация через Oxigraph API быстрее для простых hop-запросов"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,14 @@
+id: q-068
+category: fresh
+query: "Какие Wikidata-сущности L3 ещё не загружены для сущностей vault?"
+
+gold_sources: []
+
+expected_facts:
+  - "Wikidata L3 — ленивая загрузка: данные запрашиваются по требованию"
+  - "L3 включает более широкий контекст для сущностей L1/L2"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

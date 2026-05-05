@@ -1,0 +1,14 @@
+id: q-018
+category: lookup
+query: "Что такое MMR (Maximal Marginal Relevance)?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "MMR — алгоритм диверсификации результатов поиска"
+  - "Балансирует релевантность и разнообразие retrieved чанков"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

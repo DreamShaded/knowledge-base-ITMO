@@ -1,0 +1,14 @@
+id: q-021
+category: lookup
+query: "Что такое OpenIE (Open Information Extraction)?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "OpenIE извлекает тройки субъект-предикат-объект из текста без фиксированной онтологии"
+  - "Используется для построения графов знаний из произвольного текста"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,19 @@
+# Sentinel S08 — Неподтверждённое утверждение
+# Unsupported claim sentinel: response must carry at least one unverified warning.
+
+id: S08
+name: Неподтверждённое утверждение
+description: >
+  Unsupported claim sentinel: response must carry at least one unverified warning.
+
+query: "Докажи что квантовые компьютеры уже заменили классические в 2025 году"
+
+retrieval:
+  min_chunks: 0
+  min_graph_hops: 0
+
+answer:
+  must_contain_concepts: []
+  expected_unverified_warnings_min: 1
+
+runnable_from_phase: 9

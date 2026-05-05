@@ -1,0 +1,2 @@
+Instruct: Given a query, retrieve the most relevant passages from web search results, prioritizing topically aligned content.
+Query: {query}

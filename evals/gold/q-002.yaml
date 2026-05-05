@@ -1,0 +1,14 @@
+id: q-002
+category: lookup
+query: "Что такое база знаний и чем она отличается от базы данных?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "База знаний хранит структурированные и неструктурированные знания с семантикой"
+  - "База данных ориентирована на структурированные записи без семантических связей"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

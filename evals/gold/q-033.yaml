@@ -1,0 +1,16 @@
+id: q-033
+category: multi_hop
+query: "Как Tier-0 граф строится из Obsidian vault'ов?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Tier-0 извлекает wiki-ссылки, теги и frontmatter из .md файлов"
+  - "Создаёт тройки (note→linksTo→note) и (note→hasTag→tag)"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,14 @@
+id: q-063
+category: fresh
+query: "Что предсказывает KGE-модель о связях между понятиями в vault?"
+
+gold_sources: []
+
+expected_facts:
+  - "KGE предсказывает отсутствующие ссылки между нотами через link prediction"
+  - "Топ-50 предсказаний доступны в /review для ручной верификации"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

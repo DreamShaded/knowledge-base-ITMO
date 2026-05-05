@@ -1,0 +1,16 @@
+id: q-035
+category: multi_hop
+query: "Как GPU mutex предотвращает конкуренцию между компонентами системы?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "GPU mutex управляет очередью GPU-задач: Marker, embedder, Ollama, KGE"
+  - "RAG-запросы имеют приоритет над batch-задачами (KGE, indexing)"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

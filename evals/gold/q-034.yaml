@@ -1,0 +1,16 @@
+id: q-034
+category: multi_hop
+query: "Как system работает с книгами: какой путь от PDF до ответа?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "PDF парсится Marker или PyMuPDF → чанки → embedding → Qdrant"
+  - "При запросе hybrid retrieval находит релевантные чанки из книг"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

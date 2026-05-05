@@ -1,0 +1,14 @@
+id: q-056
+category: educational
+query: "Что такое CAP-теорема и каковы её следствия?"
+
+gold_sources: []
+
+expected_facts:
+  - "CAP: Consistency, Availability, Partition Tolerance — нельзя одновременно гарантировать все три"
+  - "На практике системы выбирают между CP и AP при сетевом разделении"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

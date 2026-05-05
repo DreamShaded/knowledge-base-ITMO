@@ -1,0 +1,14 @@
+id: q-060
+category: educational
+query: "Что такое трансформер (Transformer) в deep learning?"
+
+gold_sources: []
+
+expected_facts:
+  - "Трансформер — архитектура нейронной сети на основе attention механизма"
+  - "Применяется в LLM: GPT, BERT, T5 и других"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

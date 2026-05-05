@@ -1,0 +1,14 @@
+id: q-058
+category: educational
+query: "Что такое event loop и как он работает в Node.js?"
+
+gold_sources: []
+
+expected_facts:
+  - "Event loop — механизм обработки асинхронных событий в однопоточной среде"
+  - "Использует Call Stack, Web APIs, Task Queue и Microtask Queue"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

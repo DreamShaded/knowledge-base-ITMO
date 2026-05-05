@@ -1,0 +1,21 @@
+[Unit]
+Description=Open WebUI (Knowledge Base Chat)
+After=network-online.target kb-app.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/home/r/.local/share/uv/tools/open-webui/bin/open-webui serve --port 3000 --host 127.0.0.1
+Restart=on-failure
+RestartSec=5
+Environment="PATH=/home/r/common/code/knowledge-base/.venv/bin:/home/r/.gvm/bin:/home/r/.nvm/versions/node/v24.14.0/bin:/home/r/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/opt/cuda/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/r/.rsvm/current/dist/bin:/home/r/.rsvm/current/cargo/bin"
+Environment="OPENAI_API_BASE_URL=http://127.0.0.1:8000/v1"
+Environment="OPENAI_API_KEY=local"
+Environment="WEBUI_AUTH=False"
+Environment="DATA_DIR=/home/r/common/code/knowledge-base/data/open-webui"
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-open-webui
+
+[Install]
+WantedBy=default.target

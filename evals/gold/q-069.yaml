@@ -1,0 +1,14 @@
+id: q-069
+category: fresh
+query: "Что изменилось в графе знаний после последнего цикла Tier-1 OpenIE?"
+
+gold_sources: []
+
+expected_facts:
+  - "Tier-1 OpenIE промотирует тройки через 5-gate pipeline"
+  - "Промотированные тройки попадают в urn:tier1 named graph"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

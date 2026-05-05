@@ -1,0 +1,2 @@
+Instruct: Given a query about personal knowledge, ideas, or notes, retrieve the most relevant note passages that answer or expand on the query.
+Query: {query}

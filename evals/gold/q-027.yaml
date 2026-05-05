@@ -1,0 +1,16 @@
+id: q-027
+category: multi_hop
+query: "Чем embedding-based retrieval отличается от sparse BM25 retrieval?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Dense retrieval использует векторные embeddings для семантического поиска"
+  - "Sparse BM25 работает с точным совпадением терминов"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

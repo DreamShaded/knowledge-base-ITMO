@@ -1,0 +1,14 @@
+id: q-005
+category: lookup
+query: "Что такое embeddings в контексте NLP?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Embeddings — векторное представление текста в многомерном пространстве"
+  - "Позволяют измерять семантическую близость через косинусное расстояние"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,14 @@
+id: q-007
+category: lookup
+query: "Что такое BM25 и как он работает?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "BM25 — алгоритм полнотекстового поиска на основе TF-IDF"
+  - "Учитывает длину документа и частоту терминов"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

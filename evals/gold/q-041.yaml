@@ -1,0 +1,13 @@
+id: q-041
+category: personal
+query: "Какие задачи у меня помечены как 'в работе' в заметках?"
+
+gold_sources: []  # populated from personal vault during annotation
+
+expected_facts:
+  - "Ответ должен опираться на личные заметки автора"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

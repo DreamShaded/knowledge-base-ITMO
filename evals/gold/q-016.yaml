@@ -1,0 +1,14 @@
+id: q-016
+category: lookup
+query: "Что такое chunking в контексте RAG?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Chunking — разбиение документа на части для индексации"
+  - "Влияет на точность retrieval и размер контекста"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

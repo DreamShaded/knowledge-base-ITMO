@@ -1,0 +1,16 @@
+id: q-030
+category: multi_hop
+query: "Как Oxigraph хранит семантические тройки в этой PKM-системе?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Oxigraph — RDF-хранилище, поддерживающее named graphs"
+  - "Tier0, tier1, tier2 и predictions хранятся в отдельных named graphs"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

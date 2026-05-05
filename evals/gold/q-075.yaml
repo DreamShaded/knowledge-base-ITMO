@@ -1,0 +1,14 @@
+id: q-075
+category: comparison
+query: "Чем RotatE лучше TransE для link prediction?"
+
+gold_sources: []
+
+expected_facts:
+  - "RotatE обрабатывает симметричные и антисимметричные отношения"
+  - "TransE не может корректно представить симметричные паттерны"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

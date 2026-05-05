@@ -1,0 +1,14 @@
+id: q-070
+category: fresh
+query: "Какой был результат последнего training cycle KGE?"
+
+gold_sources: []
+
+expected_facts:
+  - "kge_train_log содержит tier, change_score, mrr_before, mrr_after"
+  - "quality_gate: passed/failed по пороговому значению 0.95"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

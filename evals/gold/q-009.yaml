@@ -1,0 +1,14 @@
+id: q-009
+category: lookup
+query: "Что такое SPARQL?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "SPARQL — язык запросов к RDF-данным"
+  - "Поддерживает SELECT, CONSTRUCT, ASK и DESCRIBE"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

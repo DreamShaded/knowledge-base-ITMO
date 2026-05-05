@@ -1,0 +1,19 @@
+# Sentinel S09 — Агрегатный запрос с предупреждением
+# Aggregate sentinel: question aggregates personal data — must trigger aggregate warning.
+
+id: S09
+name: Агрегатный запрос с предупреждением
+description: >
+  Aggregate sentinel: question aggregates personal data — must trigger aggregate warning.
+
+query: "Сколько всего заметок у меня в vault и сколько тегов?"
+
+retrieval:
+  min_chunks: 1
+  min_graph_hops: 0
+
+answer:
+  must_contain_concepts: []
+  expected_warning_type: aggregate
+
+runnable_from_phase: 8

@@ -1,0 +1,27 @@
+# Sentinel question scaffold — phase-14 will populate full gold answers.
+# Schema: category, query, gold_sources, expected_facts, min_hops.
+
+id: q-001
+category: multi_hop
+query: "Как реактивность системы связана с event-driven архитектурой?"
+
+# Vault notes / book chapters that must appear in citations
+gold_sources:
+  - type: vault_note
+    vault_id: personal
+    rel_path: "Projects/magistratura/Реактивность.md"
+  # Add more when vault is populated
+
+# Key facts the answer must contain (checked by LLM-judge in phase-14)
+expected_facts:
+  - "Реактивные системы отвечают на события асинхронно"
+  - "Реактивный Манифест определяет свойства: responsive, resilient, elastic, message-driven"
+
+# Minimum graph hops required (tests phase-05 KB-walk)
+min_hops: 2
+
+# Acceptance thresholds (used in phase-14 eval)
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.7
+  latency_p95_ms: 3000

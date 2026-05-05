@@ -1,0 +1,14 @@
+id: q-071
+category: fresh
+query: "Какие источники были проиндексированы из web-канала на этой неделе?"
+
+gold_sources: []
+
+expected_facts:
+  - "Команда /save-web сохраняет web-страницы в хранилище"
+  - "Web-chunk'и добавляются в Qdrant коллекцию web_saved"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

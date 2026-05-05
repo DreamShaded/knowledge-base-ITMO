@@ -1,0 +1,14 @@
+id: q-008
+category: lookup
+query: "Что такое RDF и зачем он нужен?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "RDF (Resource Description Framework) — стандарт W3C для описания данных в виде троек"
+  - "Используется для семантической разметки и обмена данными"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

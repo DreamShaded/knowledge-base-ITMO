@@ -1,0 +1,14 @@
+id: q-062
+category: educational
+query: "Как работает vector store и что такое ANN-поиск?"
+
+gold_sources: []
+
+expected_facts:
+  - "Vector store хранит embedding-векторы для быстрого поиска по сходству"
+  - "ANN (Approximate Nearest Neighbors) находит близкие векторы без перебора всех"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

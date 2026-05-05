@@ -1,0 +1,14 @@
+id: q-065
+category: fresh
+query: "Какие страницы Wikidata добавлены к сущностям vault'а за последнюю неделю?"
+
+gold_sources: []
+
+expected_facts:
+  - "Wikidata L1/L2 enrichment добавляет свойства и связанные сущности"
+  - "Обогащение сохраняется в tier2 named graph"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

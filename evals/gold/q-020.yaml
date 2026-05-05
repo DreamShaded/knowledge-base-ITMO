@@ -1,0 +1,14 @@
+id: q-020
+category: lookup
+query: "Что такое hallucination в LLM?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Hallucination — генерация фактически неверной информации моделью"
+  - "Снижается через RAG и faithfulness-check"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

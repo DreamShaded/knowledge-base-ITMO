@@ -1,0 +1,16 @@
+id: q-036
+category: multi_hop
+query: "Как web-channel интегрируется с основным RAG-ответом?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Web-channel выполняет поиск через SearXNG при команде /web или web-intent"
+  - "Результаты sanitization и merge с vault-ответом в answer envelope"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

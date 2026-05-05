@@ -1,0 +1,14 @@
+id: q-061
+category: educational
+query: "Что такое attention mechanism и зачем он нужен?"
+
+gold_sources: []
+
+expected_facts:
+  - "Attention позволяет модели фокусироваться на разных частях входа при генерации каждого токена"
+  - "Self-attention учитывает взаимосвязи между всеми позициями последовательности"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

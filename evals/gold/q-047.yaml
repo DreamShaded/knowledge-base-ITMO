@@ -1,0 +1,13 @@
+id: q-047
+category: personal
+query: "Какие ссылки на статьи я сохранил по теме graph neural networks?"
+
+gold_sources: []  # populated from personal vault during annotation
+
+expected_facts:
+  - "Ответ должен опираться на личные заметки автора"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

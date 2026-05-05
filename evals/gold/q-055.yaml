@@ -1,0 +1,14 @@
+id: q-055
+category: educational
+query: "Объясни принцип eventual consistency в распределённых системах"
+
+gold_sources: []
+
+expected_facts:
+  - "Eventual consistency — гарантия, что при отсутствии новых обновлений все реплики сойдутся к одному состоянию"
+  - "Противопоставляется строгой консистентности (linearizability)"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

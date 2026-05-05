@@ -1,0 +1,28 @@
+# Tier-1 OpenIE predicate whitelist (ADR-0008 §6)
+# Only these predicates may appear in LLM-extracted triples.
+# Extension = git commit to this file.
+predicates:
+  - https://my-pkm.local/ontology#mentions
+  - https://my-pkm.local/ontology#defines
+  - https://my-pkm.local/ontology#explains
+  - https://my-pkm.local/ontology#cites
+  - https://my-pkm.local/ontology#exemplifies
+  - https://my-pkm.local/ontology#contradicts
+  - http://www.w3.org/2004/02/skos/core#related
+  - http://www.w3.org/2004/02/skos/core#broader
+  - http://www.w3.org/2004/02/skos/core#narrower
+  - https://my-pkm.local/ontology#precedes
+  - https://my-pkm.local/ontology#causes
+  - https://my-pkm.local/ontology#dependsOn
+
+# Tier-0-only predicates: deterministic extraction, rejected if proposed by OpenIE
+tier0_only:
+  - https://my-pkm.local/ontology#tagged
+  - https://my-pkm.local/ontology#inProject
+  - https://my-pkm.local/ontology#inVault
+  - https://my-pkm.local/ontology#linksTo
+  - https://my-pkm.local/ontology#hasChapter
+  - https://my-pkm.local/ontology#hasChunk
+  - https://my-pkm.local/ontology#authoredBy
+  - https://my-pkm.local/ontology#fromURL
+  - https://my-pkm.local/ontology#hasHeading

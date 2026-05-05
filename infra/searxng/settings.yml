@@ -1,0 +1,55 @@
+# SearXNG settings for knowledge-base (ADR-0005).
+# Loaded as a folder override — merged on top of SearXNG defaults.
+# Only override values that differ from defaults.
+
+use_default_settings: true
+
+general:
+  instance_name: "knowledge-base-searxng"
+  debug: false
+
+server:
+  port: 8889
+  bind_address: "127.0.0.1"
+  secret_key: "kb-local-only-change-if-exposed"
+  limiter: false
+  image_proxy: false
+
+search:
+  safe_search: 0
+  formats:
+    - html
+    - json
+
+outgoing:
+  request_timeout: 8.0
+  max_request_timeout: 15.0
+  pool_connections: 20
+  pool_maxsize: 20
+
+engines:
+  - name: google
+    engine: google
+    shortcut: g
+    disabled: false
+
+  - name: bing
+    engine: bing
+    shortcut: b
+    disabled: false
+
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: d
+    disabled: false
+
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: w
+    disabled: false
+    language: en
+
+  - name: arxiv
+    engine: arxiv
+    shortcut: ar
+    disabled: false

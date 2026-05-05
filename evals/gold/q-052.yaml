@@ -1,0 +1,13 @@
+id: q-052
+category: personal
+query: "Что я писал о FastAPI и его использовании?"
+
+gold_sources: []  # populated from personal vault during annotation
+
+expected_facts:
+  - "Ответ должен опираться на личные заметки автора"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,8 @@
+{
+  "_comment": "Populate with author and judge ratings after manual annotation (ADR-0010 §6).",
+  "_format": "Arrays of integer ratings (0/1 binary or 1-5 Likert) for the same 30 calibration items.",
+  "author": [],
+  "judge": [],
+  "n_calibration_items": 30,
+  "target_kappa": 0.6
+}

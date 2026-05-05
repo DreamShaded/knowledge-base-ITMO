@@ -1,0 +1,16 @@
+id: q-037
+category: multi_hop
+query: "Как adaptive retrain KGE использует delta-tracker для решения о переобучении?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "GraphDelta tracker записывает изменения в tier0 и tier2 с timestamp"
+  - "change_score агрегирует дельты и определяет tier переобучения"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

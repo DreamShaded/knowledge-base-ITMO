@@ -1,0 +1,19 @@
+# Sentinel S03 — Бессмысленный запрос
+# Sentinel tests that the system returns a refusal on a nonsensical query.
+
+id: S03
+name: Бессмысленный запрос
+description: >
+  Sentinel tests that the system returns a refusal on a nonsensical query.
+
+query: "Фиолетово квадратный синтаксис дерево когда?"
+
+retrieval:
+  min_chunks: 0
+  min_graph_hops: 0
+
+answer:
+  must_contain_concepts: []
+  expected_response: refusal
+
+runnable_from_phase: 6

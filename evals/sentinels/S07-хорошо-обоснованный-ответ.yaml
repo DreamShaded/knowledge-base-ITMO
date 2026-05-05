@@ -1,0 +1,23 @@
+# Sentinel S07 — Хорошо обоснованный ответ
+# Well-grounded sentinel: answer must have zero unverified warnings.
+
+id: S07
+name: Хорошо обоснованный ответ
+description: >
+  Well-grounded sentinel: answer must have zero unverified warnings.
+
+query: "Что такое реактивный манифест и его четыре принципа?"
+
+retrieval:
+  min_chunks: 2
+  min_graph_hops: 1
+
+answer:
+  must_contain_concepts:
+    - "responsive"
+    - "resilient"
+    - "elastic"
+    - "message-driven"
+  expected_unverified_warnings: 0
+
+runnable_from_phase: 9

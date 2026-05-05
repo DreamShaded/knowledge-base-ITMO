@@ -1,0 +1,47 @@
+# Wikidata L2 type-specific property profiles (ADR-0008 §4, phase-11).
+# Keys match P31 instance-of → type resolution in fetcher_l2.py.
+
+# Map from instance_of Q-ids to type profile name
+instance_to_profile:
+  Q5: Person           # human
+  Q215627: Person      # person
+  Q7397: Software      # software
+  Q9842: Software      # computer program
+  Q571: Book           # book
+  Q277759: Book        # written work
+  Q7725634: Book       # literary work
+  Q43229: Organization # organization
+  Q4830453: Organization # business
+  Q163740: Organization  # nonprofit
+  Q1656682: Event      # event
+  Q1190554: Event      # occurrence
+
+# Per-type properties to fetch in L2
+profiles:
+  Person:
+    - P569  # date of birth
+    - P570  # date of death
+    - P106  # occupation
+    - P800  # notable work
+    - P108  # employer
+  Software:
+    - P178  # developer
+    - P277  # programming language
+    - P306  # operating system
+    - P275  # license
+  Concept:
+    - P361  # part of
+    - P527  # has part
+    - P460  # said to be the same as
+  Book:
+    - P50   # author
+    - P136  # genre
+    - P577  # publication date
+    - P407  # language of work
+  Organization:
+    - P159  # headquarters location
+    - P112  # founded by
+    - P571  # inception
+  Event:
+    - P585  # point in time
+    - P276  # location

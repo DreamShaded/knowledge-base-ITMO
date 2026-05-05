@@ -1,0 +1,14 @@
+id: q-073
+category: comparison
+query: "Чем dense retrieval лучше или хуже BM25 для технических вопросов?"
+
+gold_sources: []
+
+expected_facts:
+  - "Dense retrieval понимает семантику; BM25 требует точных терминов"
+  - "Для технических запросов hybrid (dense + BM25) показывает лучшие результаты"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

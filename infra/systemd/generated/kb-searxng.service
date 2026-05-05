@@ -1,0 +1,19 @@
+[Unit]
+Description=SearXNG Metasearch Engine (Knowledge Base)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/r/common/code/knowledge-base/vendor/searxng
+ExecStart=/home/r/common/code/knowledge-base/vendor/searxng/.venv/bin/python3 -m searx.webapp
+Restart=on-failure
+RestartSec=5
+Environment="SEARXNG_SETTINGS_PATH=/home/r/common/code/knowledge-base/infra/searxng"
+Environment="PATH=/home/r/common/code/knowledge-base/.venv/bin:/home/r/.gvm/bin:/home/r/.nvm/versions/node/v24.14.0/bin:/home/r/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/opt/cuda/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/r/.rsvm/current/dist/bin:/home/r/.rsvm/current/cargo/bin"
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-searxng
+
+[Install]
+WantedBy=default.target

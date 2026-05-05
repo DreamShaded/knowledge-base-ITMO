@@ -1,0 +1,16 @@
+id: q-026
+category: multi_hop
+query: "Как KGE link prediction связан с Wikidata-обогащением в этой системе?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "KGE обучается на tier0 + tier2 графах, не включая tier1 (OpenIE)"
+  - "Wikidata-обогащение добавляет сущности в tier2 для улучшения KGE"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

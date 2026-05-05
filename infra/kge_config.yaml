@@ -1,0 +1,60 @@
+# KGE training hyperparameters and surfacing thresholds (ADR-0009 §1-5).
+# Override individual fields via KB_KGE__* env vars.
+
+model: RotatE
+embedding_dim: 256
+
+loss: NSSALoss
+loss_kwargs:
+  margin: 12.0
+  adversarial_temperature: 1.0
+
+optimizer: Adam
+optimizer_kwargs:
+  lr: 1.0e-3
+
+training_loop: sLCWA
+epochs: 200
+batch_size: 512
+negative_sampler_kwargs:
+  num_negs_per_pos: 64
+
+early_stopping:
+  patience: 20
+  metric: mrr
+  relative_delta: 0.001
+
+# Surfacing pipeline (ADR-0009 §5)
+surfacing:
+  weekly_cap: 50
+  rescore_threshold: 0.30   # re-show if score grew >= this after retrain
+  quota_by_zscore:           # z-score threshold → max predictions per entity
+    - [3.0, 7]
+    - [2.0, 5]
+    - [1.0, 3]
+    - [0.0, 1]
+
+# Quality gate (phase-13)
+quality_gate:
+  mrr_regression_threshold: 0.95   # new_MRR < old_MRR * 0.95 → keep_old
+
+# Adaptive retrain (phase-13, ADR-0009 §6)
+adaptive_retrain:
+  # change_score tier thresholds
+  skip_below: 50
+  warm_start_below: 500
+  full_below: 2000
+  # above full_below → hpo
+
+  # Warm-start: load current model.pt, train 20-30 epochs incremental
+  warm_start_epochs: 25
+  # History: keep N previous runs for rollback
+  history_keep: 3
+
+# change_score weights (phase-13 task 2)
+change_score:
+  weights:
+    w_new_triples: 1.0
+    w_new_entities: 1.5
+    w_predicate_diversity: 0.5
+    w_time: 10.0

@@ -1,0 +1,16 @@
+id: q-025
+category: multi_hop
+query: "Как message-driven дизайн связан с resilience в Reactive Manifesto?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Реактивный манифест описывает 4 свойства: responsive, resilient, elastic, message-driven"
+  - "Message-driven подход изолирует компоненты через асинхронное сообщение"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

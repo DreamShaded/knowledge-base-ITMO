@@ -1,0 +1,14 @@
+id: q-067
+category: fresh
+query: "Какие заметки были изменены после последнего retrain KGE?"
+
+gold_sources: []
+
+expected_facts:
+  - "GraphDelta tracker записывает все изменения в tier0 с timestamp"
+  - "Watсhdog детектирует изменения файлов vault'а"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

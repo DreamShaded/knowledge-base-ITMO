@@ -1,0 +1,14 @@
+id: q-064
+category: fresh
+query: "Какие новые связи появились в графе после последнего индексирования?"
+
+gold_sources: []
+
+expected_facts:
+  - "Tier-0 эмиттер добавил новые тройки при watchdog-обнаружении изменений"
+  - "delta-tracker зафиксировал изменения в kge_graph_delta"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

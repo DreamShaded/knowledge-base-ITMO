@@ -1,0 +1,20 @@
+# Sentinel S05 — Свежая Wikidata-сущность
+# Tests that Wikidata-enriched entities appear in retrieval.
+
+id: S05
+name: Свежая Wikidata-сущность
+description: >
+  Tests that Wikidata-enriched entities appear in retrieval.
+
+query: "Расскажи о Tim Berners-Lee и его связи с семантическим вебом"
+
+retrieval:
+  min_chunks: 1
+  min_graph_hops: 1
+
+answer:
+  must_contain_concepts:
+    - "Berners-Lee"
+    - "семантическ"
+
+runnable_from_phase: 11

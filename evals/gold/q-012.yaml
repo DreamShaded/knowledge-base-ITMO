@@ -1,0 +1,14 @@
+id: q-012
+category: lookup
+query: "Что такое link prediction в графах?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Link prediction — предсказание отсутствующих рёбер в графе"
+  - "Применяется для открытия скрытых связей между сущностями"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

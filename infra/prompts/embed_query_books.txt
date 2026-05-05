@@ -1,0 +1,2 @@
+Instruct: Given a technical query, retrieve the most relevant book passages that explain, define, or document the topic.
+Query: {query}

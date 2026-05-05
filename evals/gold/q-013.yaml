@@ -1,0 +1,14 @@
+id: q-013
+category: lookup
+query: "Что такое RotatE в контексте knowledge graph embedding?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "RotatE — модель KGE, представляющая отношения как вращения в комплексном пространстве"
+  - "Достигает высоких результатов на FB15k-237 и других бенчмарках"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

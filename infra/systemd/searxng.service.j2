@@ -1,0 +1,19 @@
+[Unit]
+Description=SearXNG Metasearch Engine (Knowledge Base)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ repo_root }}/vendor/searxng
+ExecStart={{ python_bin_searxng }} -m searx.webapp
+Restart=on-failure
+RestartSec=5
+Environment="SEARXNG_SETTINGS_PATH={{ repo_root }}/infra/searxng"
+Environment="PATH={{ env_path }}"
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-searxng
+
+[Install]
+WantedBy=default.target

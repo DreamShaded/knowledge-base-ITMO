@@ -1,0 +1,16 @@
+id: q-031
+category: multi_hop
+query: "Как slash-команды маршрутизируются в этой системе?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Slash-команды парсятся server-side на входе /v1/chat/completions"
+  - "Router определяет канал поиска по команде и intent"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

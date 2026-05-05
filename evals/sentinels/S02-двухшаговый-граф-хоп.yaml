@@ -1,0 +1,20 @@
+# Sentinel S02 — Двухшаговый граф-хоп
+# Tests 2-hop KB graph traversal: note A → concept → note B.
+
+id: S02
+name: Двухшаговый граф-хоп
+description: >
+  Tests 2-hop KB graph traversal: note A → concept → note B.
+
+query: "Как паттерн Observer связан с реактивным программированием?"
+
+retrieval:
+  min_chunks: 2
+  min_graph_hops: 2
+
+answer:
+  must_contain_concepts:
+    - "Observer"
+    - "реактивн"
+
+runnable_from_phase: 5

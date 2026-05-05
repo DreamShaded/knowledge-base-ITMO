@@ -1,0 +1,14 @@
+id: q-019
+category: lookup
+query: "Что такое faithfulness в контексте RAG?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Faithfulness — степень соответствия генерированного ответа источникам"
+  - "Высокий показатель означает отсутствие непоциях утверждений"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

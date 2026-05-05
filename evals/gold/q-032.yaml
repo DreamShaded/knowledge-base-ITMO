@@ -1,0 +1,16 @@
+id: q-032
+category: multi_hop
+query: "Как faithfulness pipeline снижает галлюцинации в ответах?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Faithfulness pipeline декомпозирует ответ на atomic claims"
+  - "Каждый claim верифицируется против retrieved источников"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

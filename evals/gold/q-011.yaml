@@ -1,0 +1,14 @@
+id: q-011
+category: lookup
+query: "Что такое named entity recognition (NER)?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "NER — задача извлечения именованных сущностей из текста"
+  - "Выделяет персоны, организации, локации и другие типы"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

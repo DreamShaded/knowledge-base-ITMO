@@ -1,0 +1,17 @@
+[Unit]
+Description=KGE adaptive retrain nightly cycle
+After=network.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/common/code/knowledge-base
+ExecStart=/usr/bin/env uv run python -m app kge nightly
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-kge-cron
+
+# Resource limits: KGE training is GPU-intensive but non-interactive.
+# Lower CPU priority so RAG queries remain responsive.
+Nice=10
+IOSchedulingClass=best-effort
+IOSchedulingPriority=5

@@ -1,0 +1,22 @@
+[Unit]
+Description=Knowledge Base FastAPI Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory={{ repo_root }}
+ExecStart={{ python_bin }} -m app run
+Restart=on-failure
+RestartSec=5
+Environment="PATH={{ env_path }}"
+Environment="HF_HOME={{ repo_root }}/data/models"
+Environment="KB_PROFILE={{ profile }}"
+Environment="PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True"
+LimitNOFILE=65536
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-app
+
+[Install]
+WantedBy=default.target

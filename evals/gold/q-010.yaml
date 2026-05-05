@@ -1,0 +1,14 @@
+id: q-010
+category: lookup
+query: "Что такое Wikidata?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Wikidata — свободная структурированная база данных знаний"
+  - "Связана с Википедией и содержит миллионы сущностей"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

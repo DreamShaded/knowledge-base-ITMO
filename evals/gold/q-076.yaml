@@ -1,0 +1,14 @@
+id: q-076
+category: comparison
+query: "Чем отличаются Marker и PyMuPDF для парсинга PDF?"
+
+gold_sources: []
+
+expected_facts:
+  - "Marker поддерживает OCR и формулы; медленнее, но качественнее"
+  - "PyMuPDF — быстрый парсер text-layer без OCR; fallback для простых PDF"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

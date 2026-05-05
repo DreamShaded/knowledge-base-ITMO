@@ -1,0 +1,28 @@
+# Profile: NVIDIA RTX 4070 Laptop (8 GB VRAM)
+# Budget: qwen3:8b ~6 GB + Qwen3-Embedding-0.6B ~0.5 GB co-reside.
+# Marker requires OllamaLifecycle unload before GPU use (ADR-0013).
+
+ollama:
+  chat_model: qwen3:8b
+
+embedder:
+  model_id: Qwen/Qwen3-Embedding-0.6B
+  device: cuda
+  truncate_dim: 1024
+  batch_size: 16
+
+reranker:
+  model_id: Qwen/Qwen3-Reranker-0.6B
+  device: cpu
+  batch_size: 8
+
+marker:
+  gpu_footprint_cap_mb: 6000
+  workers: 1
+
+kge:
+  batch_size: 256
+  neg_per_pos: 32
+
+playwright:
+  headless_concurrency: 1

@@ -1,0 +1,16 @@
+id: q-023
+category: multi_hop
+query: "Какова связь между CQRS и event-driven архитектурой?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "CQRS разделяет команды и запросы"
+  - "Event-driven архитектура использует события для связи компонентов"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

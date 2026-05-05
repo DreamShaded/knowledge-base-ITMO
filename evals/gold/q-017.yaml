@@ -1,0 +1,14 @@
+id: q-017
+category: lookup
+query: "Что такое retrieval-augmented generation (RAG)?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "RAG — метод генерации с опорой на извлечённые документы"
+  - "Снижает галлюцинации за счёт фактической базы"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

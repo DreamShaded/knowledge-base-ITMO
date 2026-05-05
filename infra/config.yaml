@@ -1,0 +1,93 @@
+# Base configuration — hardware-neutral defaults.
+# Profile overrides in infra/profiles/<KB_PROFILE>.yaml (selected by KB_PROFILE env or autodetect).
+# Env overrides via KB_ prefix with __ delimiter: KB_SOURCES__VAULTS__0__PATH=/path
+
+profile: laptop-4070-8gb
+
+sources:
+  vaults:
+    - id: personal
+      label: "Личный"
+      path: /home/r/common/learn/obsidian/
+      obsidian_uri_name: obsidian
+      sensitive_entities_file: ./privacy/personal-sensitive.txt
+    # Example:
+    # - id: work
+    #   label: "Рабочий"
+    #   path: ${HOME}/Sync/vault-work
+    #   obsidian_uri_name: work
+    #   sensitive_entities_file: ./privacy/work-sensitive.txt
+  book_paths:
+    - /home/r/common/learn/books/
+    # Example:
+    # - ${HOME}/Books
+    # - /mnt/library/tech
+
+ollama:
+  host: http://localhost:11434
+  chat_model: qwen3:8b
+  keep_alive: "-1"
+  max_concurrent: 1
+  timeout: 120
+
+qdrant:
+  path: data/qdrant
+  mode: embedded # "server" requires QDRANT_URL
+  url: http://localhost:6333
+  collection_version: 1
+  dense_size: 1024
+
+oxigraph:
+  path: data/oxigraph
+
+sqlite:
+  path: data/sqlite/app.db
+
+embedder:
+  model_id: Qwen/Qwen3-Embedding-0.6B
+  device: cuda
+  truncate_dim: 1024
+  batch_size: 16
+  instruct_query: "Retrieve semantically similar text"
+  instruct_passage: ""
+
+reranker:
+  model_id: Qwen/Qwen3-Reranker-0.6B
+  device: cpu
+  batch_size: 8
+
+marker:
+  device: cuda
+  gpu_footprint_cap_mb: 2000
+  workers: 1
+
+kge:
+  batch_size: 512
+  neg_per_pos: 64
+  embedding_dim: 256
+
+playwright:
+  headless_concurrency: 1
+
+graph_walk:
+  hops_budget: 1
+  hub_blacklist: []
+  predicate_weights:
+    "https://my-pkm.local/ontology#linksTo": 1.0
+    "https://my-pkm.local/ontology#about": 0.9
+    "https://my-pkm.local/ontology#tagged": 0.7
+    "https://my-pkm.local/ontology#project": 0.6
+    "https://my-pkm.local/ontology#author": 0.4
+
+gpu_policy:
+  nightly_threshold_hour: 22
+  rag_priority: 10
+  indexing_priority: 5
+  kge_priority: 1
+
+watchdog:
+  debounce_seconds: 60.0
+
+log:
+  level: INFO
+  log_llm_full: false

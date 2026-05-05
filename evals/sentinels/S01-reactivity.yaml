@@ -1,0 +1,37 @@
+# Sentinel S01 — "Реактивность"
+# Manual smoke-test: verifies multi-hop KB retrieval across vault notes.
+# Referenced in PRD §11.6 and plan.md §Acceptance п.6.
+
+id: S01
+name: Реактивность
+description: >
+  Sentinel tests that the system can answer a multi-hop question
+  about reactivity requiring graph traversal across at least 2 notes.
+
+query: "Как реактивность системы связана с event-driven архитектурой?"
+
+# Expected retrieval behaviour
+retrieval:
+  min_chunks: 3
+  required_source_types: [vault_note]
+  min_graph_hops: 2
+
+# Expected answer structure
+answer:
+  must_contain_concepts:
+    - "реактивность"
+    - "event-driven"
+    - "асинхронность"
+  must_cite_sources: true
+  max_latency_ms: 3000
+
+# Phases where this sentinel becomes runnable
+runnable_from_phase: 5
+
+# How to run manually (phase-01: just document it)
+manual_test: |
+  1. Start the app: python -m app run
+  2. Open Open WebUI at http://localhost:3000
+  3. Ask: "Как реактивность системы связана с event-driven архитектурой?"
+  4. Verify: answer contains inline citations, TL;DR section, Sources list
+  5. Verify: response time < 3 s (p95)

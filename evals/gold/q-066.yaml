@@ -1,0 +1,14 @@
+id: q-066
+category: fresh
+query: "Есть ли предсказания KGE с высоким z-score, ожидающие ревью?"
+
+gold_sources: []
+
+expected_facts:
+  - "kge_review_queue содержит pending-предсказания отсортированные по zscore"
+  - "Глобальный cap — 50 предсказаний в неделю"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

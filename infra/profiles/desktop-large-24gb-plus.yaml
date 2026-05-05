@@ -1,0 +1,26 @@
+# Profile: Desktop GPU 24+ GB VRAM (e.g. RTX 4090, A6000)
+
+ollama:
+  chat_model: qwen3:14b
+
+embedder:
+  model_id: Qwen/Qwen3-Embedding-4B
+  device: cuda
+  truncate_dim: 1024
+  batch_size: 64
+
+reranker:
+  model_id: Qwen/Qwen3-Reranker-4B
+  device: cuda
+  batch_size: 32
+
+marker:
+  gpu_footprint_cap_mb: 16000
+  workers: 4
+
+kge:
+  batch_size: 1024
+  neg_per_pos: 128
+
+playwright:
+  headless_concurrency: 4

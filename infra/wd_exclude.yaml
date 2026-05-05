@@ -1,0 +1,23 @@
+# Wikidata property blacklist — excluded from all L1/L2 fetches.
+# Status: L1 SPARQL uses an explicit FILTER(...IN...) so only P31/P279/label/description/altLabel
+# can ever be fetched — image properties below cannot appear in L1 results.
+# L2 profiles in wd_properties.yaml do not include any of these properties.
+# This file is the canonical "never add these to profiles" reference; wire it as a
+# FILTER NOT EXISTS clause in SPARQL templates if profiles are ever expanded to broader fetches.
+excluded_properties:
+  - P18    # image
+  - P154   # logo image
+  - P41    # flag image
+  - P94    # coat of arms image
+  - P14    # road sign image
+  - P948   # page banner
+  - P935   # Commons gallery
+  - P856   # official website (prefer L3 if needed)
+  - P1566  # GeoNames ID
+  - P214   # VIAF ID
+  - P244   # Library of Congress authority ID
+  - P268   # BnF authority ID
+  - P349   # NDL Authority ID
+  - P1006  # NTA authority file ID
+  - P245   # ULAN ID
+  - P2163  # FAST ID

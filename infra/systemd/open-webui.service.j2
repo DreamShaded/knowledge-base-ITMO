@@ -1,0 +1,21 @@
+[Unit]
+Description=Open WebUI (Knowledge Base Chat)
+After=network-online.target kb-app.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart={{ open_webui_bin }} serve --port 3000 --host 127.0.0.1
+Restart=on-failure
+RestartSec=5
+Environment="PATH={{ env_path }}"
+Environment="OPENAI_API_BASE_URL=http://127.0.0.1:8000/v1"
+Environment="OPENAI_API_KEY=local"
+Environment="WEBUI_AUTH=False"
+Environment="DATA_DIR={{ repo_root }}/data/open-webui"
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=kb-open-webui
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,14 @@
+id: q-072
+category: fresh
+query: "Были ли какие-то quality gate failures в истории KGE training?"
+
+gold_sources: []
+
+expected_facts:
+  - "quality_gate_failed логируется при new_MRR < old_MRR * 0.95"
+  - "Откат возможен через python -m app kge rollback <run_id>"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

@@ -1,0 +1,16 @@
+id: q-022
+category: multi_hop
+query: "Как связаны концепции event sourcing и реактивные системы?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Event sourcing хранит историю событий как источник истины"
+  - "Реактивные системы обрабатывают события асинхронно"
+
+min_hops: 2
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

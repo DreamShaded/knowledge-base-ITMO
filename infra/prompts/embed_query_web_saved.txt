@@ -1,0 +1,2 @@
+Instruct: Given a query, retrieve the most relevant passages from saved web articles that address the query.
+Query: {query}

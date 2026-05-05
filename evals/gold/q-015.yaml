@@ -1,0 +1,14 @@
+id: q-015
+category: lookup
+query: "Что такое Hits@K в контексте KGE?"
+
+gold_sources: []  # populated during annotation phase
+
+expected_facts:
+  - "Hits@K — доля вопросов, где правильный ответ вошёл в топ-K предсказаний"
+  - "Hits@10 — стандартная метрика для link prediction"
+
+thresholds:
+  faithfulness: 0.85
+  citation_recall: 0.70
+  latency_p95_ms: 3000

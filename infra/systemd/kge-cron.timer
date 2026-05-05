@@ -1,0 +1,12 @@
+[Unit]
+Description=KGE adaptive retrain — nightly at 03:00 UTC
+
+[Timer]
+# Nightly at 03:00 UTC (low-load window, per ADR-0009 §6 "nightly batch")
+OnCalendar=*-*-* 03:00:00 UTC
+# Allow up to 30-min jitter to spread load across multiple machines
+RandomizedDelaySec=1800
+Persistent=true
+
+[Install]
+WantedBy=timers.target

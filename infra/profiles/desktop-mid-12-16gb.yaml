@@ -1,0 +1,26 @@
+# Profile: Desktop GPU 12–16 GB VRAM (e.g. RTX 3090, 4080)
+
+ollama:
+  chat_model: qwen3:14b
+
+embedder:
+  model_id: Qwen/Qwen3-Embedding-4B
+  device: cuda
+  truncate_dim: 1024
+  batch_size: 32
+
+reranker:
+  model_id: Qwen/Qwen3-Reranker-4B
+  device: cuda
+  batch_size: 16
+
+marker:
+  gpu_footprint_cap_mb: 8000
+  workers: 2
+
+kge:
+  batch_size: 512
+  neg_per_pos: 64
+
+playwright:
+  headless_concurrency: 2

@@ -1,0 +1,19 @@
+# Sentinel S04 — Персональный запрос из vault
+# Tests retrieval from personal vault for user-specific content.
+
+id: S04
+name: Персональный запрос из vault
+description: >
+  Tests retrieval from personal vault for user-specific content.
+
+query: "Что я писал о своём подходе к ведению заметок?"
+
+retrieval:
+  min_chunks: 1
+  min_graph_hops: 0
+
+answer:
+  must_contain_concepts:
+    - "заметк"
+
+runnable_from_phase: 5
