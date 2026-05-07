@@ -2,10 +2,11 @@
 from __future__ import annotations
 
 _NAV = [
-    ("jobs",   "/jobs",         "Задачи"),
-    ("review", "/review",       "KGE&#8209;предсказания"),
-    ("tier1",  "/review/tier1", "Кандидаты уровня&nbsp;1"),
-    ("sparql", "/sparql",       "SPARQL&#8209;консоль"),
+    ("jobs",   "/jobs",          "Задачи"),
+    # ("review", "/review",        "KGE&#8209;предсказания"),   # hidden until service is debugged
+    # ("tier1",  "/review/tier1",  "Кандидаты уровня&nbsp;1"), # hidden until service is debugged
+    ("links",  "/review/links",  "Семантические связи"),
+    ("sparql", "/sparql",        "SPARQL&#8209;консоль"),
 ]
 
 # Plain string — CSS braces are literals, not format specifiers.
@@ -43,7 +44,7 @@ _CSS = """
     .page-title p  { color: var(--muted); margin: 0; font-size: .8rem; }
     /* table card */
     .table-card { border-radius: var(--radius); box-shadow: var(--shadow);
-                  background: var(--surface); border: 1px solid var(--border); overflow: hidden; }
+                  background: var(--surface); border: 1px solid var(--border); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: .82rem; }
     th { background: #f8fafc; font-weight: 600; white-space: nowrap; padding: 9px 12px;
          text-align: left; color: var(--muted); font-size: .7rem;

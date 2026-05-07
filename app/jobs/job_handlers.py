@@ -51,14 +51,23 @@ async def _handle_parse_book(payload: dict, ctx: "WorkerContext") -> None:
 
     sha256 = _sha256_file(path)
     storage = BookStorage(ctx.data_dir)
+    priority = payload.get("priority", 5)
 
     if storage.is_parsed(sha256):
         storage.add_source_path(sha256, path)
         log.info("parse_book_dedup", sha256=sha256[:12], path=path)
+        # Dispatch chapter indexing in case Qdrant was cleared or chapters not yet indexed
+        chapters = storage.list_chapters(sha256)
+        for slug, content in chapters:
+            await ctx.dispatcher.enqueue(
+                T.INDEX_BOOK_CHAPTER,
+                {"sha256": sha256, "chapter_slug": slug, "content": content, "modified_at": "", "path": path},
+                priority=priority,
+                idempotency_key=f"index_book_chapter:{sha256}:{slug}",
+            )
         return
 
     parser = get_parser(path, force_marker=force_marker)
-    priority = payload.get("priority", 5)
 
     # Evict embedder from GPU before loading Marker models
     if ctx.container:
@@ -69,6 +78,20 @@ async def _handle_parse_book(payload: dict, ctx: "WorkerContext") -> None:
 
     book.sha256 = sha256
     await storage.save(book, source_path=path, parser_used=type(parser).__name__)
+
+    for chapter in book.chapters:
+        await ctx.dispatcher.enqueue(
+            T.INDEX_BOOK_CHAPTER,
+            {
+                "sha256": sha256,
+                "chapter_slug": chapter.slug,
+                "content": chapter.content_md,
+                "modified_at": "",
+                "path": path,
+            },
+            priority=priority,
+            idempotency_key=f"index_book_chapter:{sha256}:{chapter.slug}",
+        )
     log.info("parse_book_done", sha256=sha256[:12], chapters=len(book.chapters))
 
 

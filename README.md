@@ -189,6 +189,7 @@ CLI (без запущенного сервера):
 ```bash
 uv run python -m app status              # счётчики по статусам
 uv run python -m app status --failed     # + детали последних ошибок
+uv run python -m app reindex-books       # переиндексировать спарсенные книги (если они не попали в Qdrant)
 ```
 
 JSON API:

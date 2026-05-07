@@ -152,6 +152,23 @@ def create_app(container: AppContainer | None = None) -> FastAPI:
     _spec4.loader.exec_module(_mod4)  # type: ignore[union-attr]
     kge_actions_router = _mod4.router
 
+    # semantic link review queue + actions
+    _spec_slq = _ilu.spec_from_file_location(
+        "link_review_queue",
+        _P(__file__).parent / "http" / "review" / "link-review-queue.py",
+    )
+    _mod_slq = _ilu.module_from_spec(_spec_slq)
+    _spec_slq.loader.exec_module(_mod_slq)  # type: ignore[union-attr]
+    link_queue_router = _mod_slq.router
+
+    _spec_sla = _ilu.spec_from_file_location(
+        "link_review_actions",
+        _P(__file__).parent / "http" / "review" / "link-review-actions.py",
+    )
+    _mod_sla = _ilu.module_from_spec(_spec_sla)
+    _spec_sla.loader.exec_module(_mod_sla)  # type: ignore[union-attr]
+    link_actions_router = _mod_sla.router
+
     # phase-12: SPARQL console UI
     _spec5 = _ilu.spec_from_file_location(
         "sparql_console",
@@ -179,6 +196,8 @@ def create_app(container: AppContainer | None = None) -> FastAPI:
     app.include_router(tier1_review_router)
     app.include_router(kge_queue_router)
     app.include_router(kge_actions_router)
+    app.include_router(link_queue_router)
+    app.include_router(link_actions_router)
     app.include_router(sparql_console_router)
     app.include_router(jobs_dashboard_router)
 

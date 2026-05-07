@@ -157,6 +157,42 @@ def _warning_refs_from(faithfulness: "FaithfulnessResult") -> set[int]:
     return refs
 
 
+# ── Source coverage helpers ───────────────────────────────────────────────────
+
+_SOURCE_TYPE_HEADING = {
+    "note": "Заметки",
+    "book_chapter": "Книги",
+    "web_saved": "Сохранённые страницы",
+    "web": "Веб",
+    "wikidata": "Wikidata",
+}
+
+_SOURCE_TYPE_LABEL = {
+    "note": "заметках",
+    "book_chapter": "книгах",
+    "web_saved": "сохранённых страницах",
+    "web": "веб",
+    "wikidata": "Wikidata",
+}
+
+_SOURCE_TYPE_ORDER = ["note", "book_chapter", "web_saved", "web", "wikidata"]
+
+
+def _coverage_line(citations: list["Citation"]) -> str:
+    """Build 'Найдено в: заметках (3) · книгах (2)' summary line."""
+    from collections import Counter
+    counts = Counter(c.source_type for c in citations)
+    parts = []
+    for st in _SOURCE_TYPE_ORDER:
+        if st in counts:
+            parts.append(f"{_SOURCE_TYPE_LABEL.get(st, st)} ({counts[st]})")
+    # append any unknown types
+    for st, n in counts.items():
+        if st not in _SOURCE_TYPE_ORDER:
+            parts.append(f"{st} ({n})")
+    return "Найдено в: " + " · ".join(parts) if parts else ""
+
+
 # ── MarkdownRenderer ──────────────────────────────────────────────────────────
 
 class MarkdownRenderer:
@@ -188,9 +224,13 @@ class MarkdownRenderer:
 
         parts: list[str] = []
 
-        # TL;DR
+        # TL;DR + source coverage
         if envelope.tldr:
             parts.append(f"## TL;DR\n{envelope.tldr}\n")
+        if envelope.citations:
+            cov = _coverage_line(envelope.citations)
+            if cov:
+                parts.append(f"*{cov}*\n")
 
         # Faithfulness: collect warning refs and aggregate flag
         warn_refs: set[int] = set()
@@ -226,12 +266,23 @@ class MarkdownRenderer:
             for item in envelope.related:
                 parts.append(f"- {item}")
 
-        # Footnotes / sources
+        # Footnotes / sources — grouped by source_type
         if envelope.citations:
             parts.append("\n## Источники")
+            # Build ordered groups
+            groups: dict[str, list["Citation"]] = {}
             for c in envelope.citations:
-                primary, preview = _resolve_links(c, vault_map, base_url)
-                parts.append(_footnote(c, primary, preview, query))
+                groups.setdefault(c.source_type, []).append(c)
+            ordered_types = [t for t in _SOURCE_TYPE_ORDER if t in groups]
+            ordered_types += [t for t in groups if t not in _SOURCE_TYPE_ORDER]
+            use_subheadings = len(ordered_types) > 1
+            for st in ordered_types:
+                if use_subheadings:
+                    heading = _SOURCE_TYPE_HEADING.get(st, st)
+                    parts.append(f"\n### {heading}")
+                for c in groups[st]:
+                    primary, preview = _resolve_links(c, vault_map, base_url)
+                    parts.append(_footnote(c, primary, preview, query))
 
         # Confidence
         cs = envelope.confidence_signal

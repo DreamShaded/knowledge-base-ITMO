@@ -160,7 +160,7 @@ async def test_enqueues_index_job(handler, tmp_path):
     enqueued: list[tuple] = []
 
     class _FakeDispatcher:
-        def enqueue(self, job_type, payload):
+        async def enqueue(self, job_type, payload, **kwargs):
             enqueued.append((job_type, payload))
 
     with _patch_extract(extraction):

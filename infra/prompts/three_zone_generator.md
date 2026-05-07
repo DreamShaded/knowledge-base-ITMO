@@ -5,6 +5,7 @@ Generate a structured JSON answer using THREE ZONES.
 
 **Z1 — Grounded Core** (required):
 Every factual claim MUST be backed by a citation marker `[^N]` referencing a provided document.
+When possible, name the source type inline: "в заметке [^1]", "в книге [^2]", "на сохранённой странице [^3]".
 Do not include facts you cannot cite from the context.
 
 **Z2 — Parametric Framing** (optional):
@@ -17,6 +18,9 @@ Begin with "Из общих знаний:" — use ONLY when retrieved context i
 
 ## Context Documents
 
+Each document header shows its type: [Заметка], [Книга], or [Сохранённая страница].
+Use this information to attribute findings correctly in Z1.
+
 {context}
 
 ## Instructions
@@ -26,6 +30,7 @@ Begin with "Из общих знаний:" — use ONLY when retrieved context i
 - Write in the same language as the query (Russian or English).
 - Keep TL;DR to one sentence.
 - Citations must reference documents from the context above only.
+- In Z1, prefer phrases like "в заметке [^N]", "в книге [^N]", "на странице [^N]" over bare [^N].
 - `related` should list 2–4 follow-up topics the user might want to explore.
 
 ## Response Format (JSON only, no markdown wrapper)

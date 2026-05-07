@@ -43,6 +43,36 @@ class BookStorage:
             paths.append(path)
             self.write_metadata(sha256, meta)
 
+    def list_sha256s(self) -> list[str]:
+        """Return all sha256 keys for parsed (non-removed) books."""
+        result = []
+        for d in self._root.iterdir():
+            if not d.is_dir():
+                continue
+            meta_file = d / "metadata.json"
+            if not meta_file.exists():
+                continue
+            try:
+                meta = json.loads(meta_file.read_text(encoding="utf-8"))
+                if not meta.get("removed", False):
+                    result.append(d.name)
+            except Exception:
+                continue
+        return result
+
+    def list_chapters(self, sha256: str) -> list[tuple[str, str]]:
+        """Return [(slug, content_md), ...] for all stored chapters."""
+        chaps_dir = self._root / sha256 / "chapters"
+        if not chaps_dir.exists():
+            return []
+        result = []
+        for slug_dir in sorted(chaps_dir.iterdir()):
+            if slug_dir.is_dir():
+                content_file = slug_dir / "content.md"
+                if content_file.exists():
+                    result.append((slug_dir.name, content_file.read_text(encoding="utf-8")))
+        return result
+
     def find_sha256_by_path(self, path: str) -> str | None:
         """Scan book dirs to find sha256 whose source_paths contains path."""
         for meta_file in self._root.glob("*/metadata.json"):

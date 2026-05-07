@@ -35,6 +35,7 @@ def build_triples_factory(triples: list[tuple[str, str, str]]):
 def train_rotate(
     training,
     valid,
+    testing=None,
     *,
     embedding_dim: int = 256,
     epochs: int = 200,
@@ -49,6 +50,7 @@ def train_rotate(
 
     result = pipeline(
         training=training,
+        testing=testing if testing is not None else valid,
         validation=valid,
         model="RotatE",
         model_kwargs={"embedding_dim": embedding_dim},

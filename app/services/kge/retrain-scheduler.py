@@ -66,10 +66,14 @@ def run_nightly_cycle(conn, gpu_mutex, repo_root: Path, config: dict) -> str:
     if tier == "skip":
         log.info("kge_retrain_skipped", change_score=score)
         _log_done(conn, log_id, "skipped")
+        # Still surface predictions from the current model even when skipping retrain
+        _run_surface_from_current(repo_root, conn)
         return tier
 
     _wait_for_gpu(gpu_mutex, tier)
-    _run_train(tier, repo_root, config, conn, gate_mod, log_id)
+    run_id = _run_train(tier, repo_root, config, conn, gate_mod, log_id)
+    if run_id:
+        _run_surface(run_id, repo_root, conn)
     return tier
 
 
@@ -85,6 +89,7 @@ def _run_train(tier: str, repo_root: Path, config: dict, conn, gate_mod, log_id:
     try:
         from app.stores.oxigraph import OxigraphStore
         ox = OxigraphStore(path=str(repo_root / "data" / "oxigraph"))
+        ox.init(read_only=True)
         triples = loader.load_training_triples(ox)
     except Exception as exc:
         log.error("kge_load_triples_failed", error=str(exc))
@@ -100,18 +105,57 @@ def _run_train(tier: str, repo_root: Path, config: dict, conn, gate_mod, log_id:
     epochs = _epochs_for_tier(tier, kge_cfg)
 
     try:
-        training, valid, _test, factory = trainer.build_triples_factory(triples)
-        model, metrics = trainer.train_rotate(training, valid, epochs=epochs)
-        run_dir, _ = trainer.make_run_dir(repo_root)
+        training, valid, test, factory = trainer.build_triples_factory(triples)
+        model, metrics = trainer.train_rotate(training, valid, test, epochs=epochs)
+        run_dir, run_id = trainer.make_run_dir(repo_root)
         trainer.save_run(run_dir, model, factory, metrics, kge_cfg)
 
         passed = gate_mod.run_quality_gate(metrics, old_metrics, run_dir, kge_root)
         _log_quality(conn, log_id, old_metrics.get("mrr", 0.0), metrics.get("mrr", 0.0),
                      "passed" if passed else "failed")
         _log_done(conn, log_id, "done")
+        return run_id
     except Exception as exc:
         log.error("kge_train_failed", error=str(exc))
         _log_done(conn, log_id, "failed")
+        return None
+
+
+def _run_surface(run_id: str, repo_root: Path, conn) -> None:
+    """Generate predictions from a specific run and surface them into review queue."""
+    run_dir = repo_root / "data" / "kge" / "runs" / run_id
+    _surface_from_dir(run_dir, run_id, repo_root, conn)
+
+
+def _run_surface_from_current(repo_root: Path, conn) -> None:
+    """Surface predictions from the current model (skip-tier case)."""
+    current = repo_root / "data" / "kge" / "current"
+    if not current.exists():
+        log.info("kge_surface_skip_no_model")
+        return
+    run_id = current.resolve().name
+    _surface_from_dir(current.resolve(), run_id, repo_root, conn)
+
+
+def _surface_from_dir(run_dir: Path, run_id: str, repo_root: Path, conn) -> None:
+    """Load model from run_dir, generate predictions, surface to review queue."""
+    base = repo_root / "app" / "services" / "kge"
+    trainer = _load("kge_trainer_surface", base / "kge-trainer.py")
+    predictor = _load("kge_predictor_surface", base / "kge-predictor.py")
+    surfacing = _load("kge_surfacing_surface", base / "kge-surfacing.py")
+
+    try:
+        model, factory = trainer.load_run(run_dir)
+    except Exception as exc:
+        log.error("kge_surface_load_failed", run_dir=str(run_dir), error=str(exc))
+        return
+
+    try:
+        predictions = predictor.generate_predictions(model, factory)
+        surfaced = surfacing.surface_predictions(predictions, conn, run_id)
+        log.info("kge_surfacing_complete", run_id=run_id, surfaced=surfaced)
+    except Exception as exc:
+        log.error("kge_surface_failed", error=str(exc))
 
 
 def _epochs_for_tier(tier: str, kge_cfg: dict) -> int:

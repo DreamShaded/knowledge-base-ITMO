@@ -25,7 +25,15 @@ log = get_logger(__name__)
 llm_log = get_llm_logger()
 
 _PROMPTS_DIR = Path(__file__).parent.parent.parent.parent / "infra" / "prompts"
-_PROMPT_VERSION = "three_zone_generator_v1"
+_PROMPT_VERSION = "three_zone_generator_v2"
+
+_SOURCE_TYPE_LABEL = {
+    "note": "Заметка",
+    "book_chapter": "Книга",
+    "web_saved": "Сохранённая страница",
+    "web": "Веб",
+    "wikidata": "Wikidata",
+}
 _MAX_CONTEXT_CHARS = 24_000  # ~6K tokens; conservative budget for qwen3:8b 32K window
 
 
@@ -52,7 +60,9 @@ def _build_context_block(result: "RetrievalResult", strict_mode: bool) -> tuple[
         sid = meta.source_id
         rel = sid.split(":", 1)[1] if ":" in sid else sid
         title = rel.rsplit("/", 1)[-1].rsplit(".", 1)[0] if rel else parent.parent_id
-        header = f"[^{idx}] **{title}** ({meta.source_type}, vault={meta.vault_id})"
+        type_label = _SOURCE_TYPE_LABEL.get(meta.source_type, meta.source_type)
+        vault_hint = f" · {meta.vault_id}" if meta.vault_id and meta.vault_id != "_web_saved" else ""
+        header = f"[^{idx}] [{type_label}] **{title}**{vault_hint}"
         snippet = parent.content[:300].replace("\n", " ")
 
         entry = f"{header}\n{parent.content}"

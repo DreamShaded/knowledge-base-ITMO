@@ -55,6 +55,7 @@ def train(force_full: bool, with_hpo: bool) -> None:
     click.echo(f"Starting KGE training: tier={tier}")
 
     ox = OxigraphStore(path=str(REPO_ROOT / "data" / "oxigraph"))
+    ox.init(read_only=True)
     triples = loader.load_training_triples(ox)
     if not triples:
         click.secho("No triples found — is the graph populated?", fg="yellow")
@@ -65,9 +66,9 @@ def train(force_full: bool, with_hpo: bool) -> None:
 
     kge_cfg = {}
     epochs = getattr(getattr(cfg, "kge", None), "epochs", 200)
-    training, valid, _test, factory = trainer.build_triples_factory(triples)
-    model, metrics = trainer.train_rotate(training, valid, epochs=epochs)
-    run_dir, _run_id = trainer.make_run_dir(REPO_ROOT)
+    training, valid, test, factory = trainer.build_triples_factory(triples)
+    model, metrics = trainer.train_rotate(training, valid, test, epochs=epochs)
+    run_dir, run_id = trainer.make_run_dir(REPO_ROOT)
     trainer.save_run(run_dir, model, factory, metrics, kge_cfg)
 
     passed = gate.run_quality_gate(metrics, old_metrics, run_dir, _KGE_ROOT)
@@ -77,6 +78,19 @@ def train(force_full: bool, with_hpo: bool) -> None:
     new_mrr = metrics.get("mrr", 0.0)
     click.secho(f"Quality gate: {status}", fg=color)
     click.echo(f"MRR: {old_mrr:.4f} → {new_mrr:.4f}")
+
+    click.echo("Generating predictions...")
+    predictor = _load("kge_predictor_cli", REPO_ROOT / "app" / "services" / "kge" / "kge-predictor.py")
+    surfacing = _load("kge_surfacing_cli", REPO_ROOT / "app" / "services" / "kge" / "kge-surfacing.py")
+    conn = sqlite.connect()
+    try:
+        predictions = predictor.generate_predictions(model, factory)
+        surfaced = surfacing.surface_predictions(predictions, conn, run_id)
+        click.secho(f"Surfaced {surfaced} predictions into review queue", fg="green")
+    except Exception as exc:
+        click.secho(f"Surfacing error: {exc}", fg="red")
+    finally:
+        conn.close()
 
 
 @kge.group(name="runs")

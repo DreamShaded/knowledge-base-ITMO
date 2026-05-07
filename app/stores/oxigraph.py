@@ -29,11 +29,14 @@ class OxigraphStore:
     path: str
     _store: Any = field(default=None, init=False, repr=False)
 
-    def init(self) -> None:
+    def init(self, read_only: bool = False) -> None:
         import pyoxigraph
         Path(self.path).mkdir(parents=True, exist_ok=True)
-        self._store = pyoxigraph.Store(self.path)
-        log.info("opened", path=self.path)
+        if read_only:
+            self._store = pyoxigraph.Store.read_only(self.path)
+        else:
+            self._store = pyoxigraph.Store(self.path)
+        log.info("opened", path=self.path, read_only=read_only)
 
     def health(self) -> dict:
         if self._store is None:

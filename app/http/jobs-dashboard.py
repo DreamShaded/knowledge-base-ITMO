@@ -92,6 +92,9 @@ _PAGE = """<!DOCTYPE html>
     .card.done    .value { color: var(--green); }
     .card.failed  .value { color: var(--red); }
     .card.total   .value { color: #334155; }
+    .card.corpus-notes .value,
+    .card.corpus-books .value,
+    .card.corpus-web   .value { color: #7c3aed; }
 
     /* actions */
     .actions { display: flex; align-items: center; gap: 8px; margin-bottom: 1.4rem; flex-wrap: wrap; }
@@ -177,8 +180,7 @@ _PAGE = """<!DOCTYPE html>
     </a>
     <nav class="topbar-nav">
       <a class="nav-link active" href="/jobs">Задачи</a>
-      <a class="nav-link" href="/review">KGE-предсказания</a>
-      <a class="nav-link" href="/review/tier1">Кандидаты уровня&nbsp;1</a>
+      <a class="nav-link" href="/review/links">Семантические связи</a>
       <a class="nav-link" href="/sparql">SPARQL-консоль</a>
     </nav>
   </header>
@@ -196,6 +198,11 @@ _PAGE = """<!DOCTYPE html>
         <div class="card done">   <div class="label">Завершено</div>  <div class="value">…</div></div>
         <div class="card failed"> <div class="label">Ошибки</div>     <div class="value">…</div></div>
         <div class="card total">  <div class="label">Всего</div>      <div class="value">…</div></div>
+      </div>
+      <div class="cards" style="margin-top:8px">
+        <div class="card corpus-notes"><div class="label">Заметки</div>     <div class="value">…</div></div>
+        <div class="card corpus-books"><div class="label">Книги</div>       <div class="value">…</div></div>
+        <div class="card corpus-web">  <div class="label">Веб-страницы</div><div class="value">…</div></div>
       </div>
     </div>
 
@@ -258,7 +265,10 @@ async def jobs_stats(request: Request) -> JSONResponse:
 @router.get("/jobs/fragment/stats", response_class=HTMLResponse)
 async def jobs_stats_fragment(request: Request) -> HTMLResponse:
     loop = asyncio.get_event_loop()
-    s = await loop.run_in_executor(None, _query_stats, request)
+    s, corpus = await asyncio.gather(
+        loop.run_in_executor(None, _query_stats, request),
+        loop.run_in_executor(None, _query_corpus_counts, request),
+    )
     html = (
         '<div class="cards">'
         + _card("pending", "В очереди",   s["pending"])
@@ -266,6 +276,11 @@ async def jobs_stats_fragment(request: Request) -> HTMLResponse:
         + _card("done",    "Завершено",   s["done"])
         + _card("failed",  "Ошибки",      s["failed"])
         + _card("total",   "Всего",       s["total"])
+        + "</div>"
+        + '<div class="cards" style="margin-top:8px">'
+        + _card("corpus-notes", "Заметки",    corpus["notes"])
+        + _card("corpus-books", "Книги",      corpus["books"])
+        + _card("corpus-web",   "Веб-страницы", corpus["web_saved"])
         + "</div>"
     )
     return HTMLResponse(html)
@@ -362,15 +377,39 @@ def _query_stats(request: Request) -> dict:
     return {"pending": p, "running": r, "done": d, "failed": f, "total": p + r + d + f}
 
 
+def _query_corpus_counts(request: Request) -> dict:
+    conn = request.app.state.container.sqlite.connect()
+    try:
+        notes = conn.execute(
+            "SELECT COUNT(*) FROM jobs WHERE type='index_note' AND status='done'"
+        ).fetchone()[0]
+        books = conn.execute(
+            "SELECT COUNT(*) FROM jobs WHERE type='parse_book' AND status='done'"
+        ).fetchone()[0]
+        try:
+            web = conn.execute("SELECT COUNT(*) FROM web_saved_index").fetchone()[0]
+        except Exception:
+            web = 0
+    finally:
+        conn.close()
+    return {"notes": notes, "books": books, "web_saved": web}
+
+
 def _query_recent(request: Request, page: int, page_size: int) -> tuple[list[dict], int]:
     conn = request.app.state.container.sqlite.connect()
     offset = (page - 1) * page_size
     try:
         total = conn.execute("SELECT COUNT(*) FROM jobs").fetchone()[0]
         rows = conn.execute(
-            """SELECT id, type, status, payload_json,
-                      created_at, started_at, finished_at, attempts, error
-               FROM jobs ORDER BY id DESC LIMIT ? OFFSET ?""",
+            """SELECT j.id, j.type, j.status, j.payload_json,
+                      j.created_at, j.started_at, j.finished_at, j.attempts, j.error,
+                      CASE WHEN j.type = 'index_web_saved'
+                           THEN (SELECT w.url FROM web_saved_index w
+                                 WHERE w.content_hash = json_extract(j.payload_json, '$.url_hash')
+                                 LIMIT 1)
+                           ELSE NULL
+                      END AS web_url
+               FROM jobs j ORDER BY j.id DESC LIMIT ? OFFSET ?""",
             (page_size, offset),
         ).fetchall()
     finally:
@@ -381,7 +420,7 @@ def _query_recent(request: Request, page: int, page_size: int) -> tuple[list[dic
 def _extract_path(payload_json: str) -> str:
     try:
         p = json.loads(payload_json or "{}")
-        return p.get("path") or p.get("url") or p.get("new_path") or ""
+        return p.get("path") or p.get("url") or p.get("new_path") or p.get("doc_uri") or p.get("chunk_id") or ""
     except Exception:
         return ""
 
@@ -434,7 +473,7 @@ def _render_recent_table(rows: list[dict], page: int, page_size: int, total: int
     )
     body = ""
     for r in rows:
-        path   = _esc(_extract_path(r.get("payload_json", "")))
+        path   = _esc(r.get("web_url") or _extract_path(r.get("payload_json", "")))
         status = r.get("status", "")
         err    = r.get("error") or ""
 

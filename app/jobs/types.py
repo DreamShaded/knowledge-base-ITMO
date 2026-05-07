@@ -9,6 +9,7 @@ SAVE_WEB = "save_web"
 # Phase-03 (declared, handler added later)
 INDEX_NOTE = "index_note"
 INDEX_BOOK = "index_book"
+INDEX_BOOK_CHAPTER = "index_book_chapter"
 EMBED_CHUNKS = "embed_chunks"
 
 # Phase-07

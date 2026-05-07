@@ -69,8 +69,9 @@ class AnswerEnvelope(BaseModel):
         if self.related:
             parts.append("\n\n**Связанные темы:** " + ", ".join(self.related))
         if self.citations:
-            parts.append("\n\n---")
+            parts.append("\n\n---\n**Источники**")
             for c in self.citations:
                 label = c.title or c.source_id
-                parts.append(f"[^{c.id}]: {label} — {c.snippet}")
+                type_hint = {"note": "заметка", "book_chapter": "книга", "web_saved": "страница"}.get(c.source_type, c.source_type)
+                parts.append(f"[^{c.id}]: [{type_hint}] {label} — {c.snippet}")
         return "\n".join(parts)

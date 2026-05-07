@@ -36,7 +36,6 @@ def generate_predictions(model, factory, top_k: int = 10) -> list[dict]:
                     head=head_label,
                     relation=rel_label,
                     triples_factory=factory,
-                    target="tail",
                 )
                 df = result.df.nlargest(top_k, "score")
                 for _, row in df.iterrows():
